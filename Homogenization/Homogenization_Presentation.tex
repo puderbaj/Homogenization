@@ -211,12 +211,22 @@ With chain rule for $\nabla$:
 \end{align*}
 \end{frame}
 
+\begin{frame}
+\begin{align*}
+&-\varepsilon^{-2}\operatorname{div}_y(\sigma(y)\nabla_y u_0(x,y))\\
+&-\varepsilon^{-1}[\operatorname{div}_y(\sigma(y)\nabla_y u_1(x,y)) + \operatorname{div}_y(\sigma(y)\nabla_x u_0(x,y)\\ &+ \operatorname{div}_x(\sigma(y)\nabla_y u_0(x,y))]\\
+&-\varepsilon^0 [\operatorname{div}_y(\sigma(y)\nabla_y u_2(x,y)\sigma(y)\nabla_x u_1(x,y)) \\&+ \operatorname{div}_x(\sigma(y)\nabla_y u_1(x,y) +  \operatorname{div}_x(\sigma(y)\nabla_x u_0(x,y)]\\
+&-\varepsilon^1 ... =g(x)
+\end{align*}
+\end{frame}
+
 \section{Homogenized Problem}
 \begin{frame}{Homogenized Problem}
 
 \begin{align*}
--\operatorname{div} (\hat \sigma \nabla u_0) &= g(x), \quad &x \in \Omega \\
-u_0 &=0, \quad &x \in \partial \Omega
+\only<1>{-\operatorname{div} (\hat \sigma \nabla u_0) &= g(x), \quad &x \in \Omega \\
+u_0 &=0, \quad &x \in \partial \Omega}
+% \only<2>{(\hat \sigma \nabla u_0, \nabla \phi) = (g,\phi) , \quad \forall \phi}
 \end{align*}
 \begin{itemize}
 \item $\hat \sigma $ - homogenized diffusion tensor
@@ -276,12 +286,15 @@ u_{\varepsilon} &\rightharpoonup u_0 &\text{ weakly in } &H^1_0(\Omega)\\
 \begin{frame}{Two-Scale Convergence}
 
 \textbf{Definition}
-Let $\{u_\varepsilon\}$ be a sequence of functions from $L^2(\Omega)$. We say that $u_\varepsilon$ two-scale converges to a limit
-$u_0(x,y)\in L^2(\Omega \times \Pi)$, and write 
-\begin{align*}
-u_\varepsilon(x) \rightharpoonup u_0(x,y)
-\end{align*}
-if $\{u_\varepsilon\}$ is bounded in $L^2(\Omega)$, and ...
+\begin {itemize}
+\item Let $\{u_\varepsilon\}$ be a sequence of functions from $L^2(\Omega)$
+\item  $u_\varepsilon$ two-scale converges to a limit
+$u_0(x,y)\in L^2(\Omega \times \Pi)$
+\\
+\item if $\{u_\varepsilon\}$ is bounded in $L^2(\Omega)$ and
+\item for any function $\Psi(x,y)\in D(\Omega,C^\infty_{per}(\Pi))$ the following equality holds:
+\end{itemize}
+
 \begin{align*}
 \lim_{\varepsilon \to 0} \int_
 {\Omega} u_\varepsilon (x) \Psi(x,\frac{x}{\varepsilon}) \operatorname d x = \int_{\Omega} \int_\Pi u_0(x,y) \Psi(x,y)\operatorname d y \operatorname d x

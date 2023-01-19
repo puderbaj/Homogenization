@@ -1,5 +1,5 @@
 \babel@toc {ngerman}{}\relax 
 \beamer@sectionintoc {1}{Introduction}{3}{0}{1}
 \beamer@sectionintoc {2}{Example}{5}{0}{2}
-\beamer@sectionintoc {3}{Homogenized Problem}{8}{0}{3}
-\beamer@sectionintoc {4}{Two-Scale Convergence}{11}{0}{4}
+\beamer@sectionintoc {3}{Homogenized Problem}{9}{0}{3}
+\beamer@sectionintoc {4}{Two-Scale Convergence}{12}{0}{4}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.7)  18 JAN 2023 20:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.7)  19 JAN 2023 10:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1071,28 +1071,30 @@ thkerncmss.
 
 ] [7
 
+] [8
+
 ]
 LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <10> not available
-(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 232.
+(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 242.
 
 LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <7> not available
-(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 232.
+(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 242.
 
 LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <5> not available
-(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 232.
+(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 242.
 
 
 
 LaTeX Font Warning: Font shape `T1/cmss/b/n' undefined
-(Font)              using `T1/cmss/m/n' instead on input line 232.
+(Font)              using `T1/cmss/m/n' instead on input line 242.
 
-[8
-
-] [9
+[9
 
 ] [10
 
 ] [11
+
+] [12
 
 ]
 \tf@nav=\write6
@@ -1113,10 +1115,10 @@ nged.
 (rerunfilecheck)             Checksum: BFDB9B5F5EB3DD176C6F5B529F3ACDD0;473.
  ) 
 Here is how much of TeX's memory you used:
- 27236 strings out of 478287
- 537751 string characters out of 5849290
- 825869 words of memory out of 5000000
- 44853 multiletter control sequences out of 15000+600000
+ 27240 strings out of 478287
+ 537786 string characters out of 5849290
+ 825906 words of memory out of 5000000
+ 44855 multiletter control sequences out of 15000+600000
  483354 words of font info for 61 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,15n,122p,426b,698s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1135,10 +1137,10 @@ f/fonts/type1/public/cm-super/sfss0500.pfb></usr/share/texmf/fonts/type1/public
 /cm-super/sfss0700.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss1000.p
 fb></usr/share/texmf/fonts/type1/public/cm-super/sfss1440.pfb></usr/share/texmf
 /fonts/type1/public/cm-super/sfsx1000.pfb>
-Output written on Homogenization_Presentation.pdf (11 pages, 182223 bytes).
+Output written on Homogenization_Presentation.pdf (12 pages, 185104 bytes).
 PDF statistics:
- 458 PDF objects out of 1000 (max. 8388607)
- 401 compressed objects within 5 object streams
- 27 named destinations out of 1000 (max. 500000)
+ 488 PDF objects out of 1000 (max. 8388607)
+ 430 compressed objects within 5 object streams
+ 29 named destinations out of 1000 (max. 500000)
  81 words of extra memory for PDF output out of 10000 (max. 10000000)
 
