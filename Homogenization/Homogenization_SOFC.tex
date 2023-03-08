@@ -1,0 +1,241 @@
+ \documentclass[10pt, a4paper]{article}
+ \usepackage[german,ngerman]{babel}
+ \usepackage[latin1]{inputenc}
+ \usepackage[T1]{fontenc}
+ \usepackage{amsmath}
+ \usepackage{amssymb}
+\usepackage{pict2e}
+\usepackage{tikz}
+
+
+ \begin{document}
+%  \section{Model}
+ 
+ \begin{align}
+ \partial_t u &= \nabla \cdot (D_V\nabla u)   & x\in S \label{diffusion}\\
+ D_V\nabla u \cdot \nu &= k(u-\bar{u}) & x \in \Gamma \label{boundary condition}
+ \end{align}
+ 
+ We assume $D_V$ to be constant in $Y_S$.
+ 
+%  \begin{align*}
+% %  D(x) = 
+% %  \begin{cases}
+% %  D_V \\
+% %  0
+% %  \end{cases}
+%  D(x) = \chi_\varepsilon(x) D_V
+%  \end{align*}
+
+ Ansatz:
+\begin{align}
+u_\varepsilon (x,y) = u_0(x,y) + \varepsilon u_1(x,y) + \varepsilon^2 u_2(x,y) + \mathcal{O} (\varepsilon^3)
+\end{align}
+ 
+ 
+ Chain rule for the gradient:
+ \begin{align}
+ \nabla = (\nabla_x + \frac{1}{\varepsilon} \nabla_y)
+ \end{align}
+ 
+ The left hand side of \eqref{diffusion} becomes:
+ 
+ \begin{align}
+ \partial_t u_\varepsilon =
+ \partial_t \left( u_0(x,y) + \varepsilon u_1(x,y) + \varepsilon^2 u_2(x,y)\right)
+ \end{align}
+ 
+ The right hand side of \eqref{diffusion} becomes:
+ 
+ \begin{align*}
+ \nabla &\cdot (D_V \nabla u_\varepsilon) = \nabla \cdot (D_V\nabla(u_0 + \varepsilon u_1 + \varepsilon^2 u_2)) \\
+        =& (\nabla_x + \frac{1}{\varepsilon} \nabla_y) \cdot (D_V (\nabla_x + \frac{1}{\varepsilon} \nabla_y)(u_0 + \varepsilon u_1 + \varepsilon^2 u_2))\\
+        =& D_V ( \varepsilon^{-2}( \nabla_y \cdot \nabla_y u_0) \\
+        &+ \varepsilon^{-1}(\nabla_x \cdot \nabla_y u_0 + \nabla_y \cdot \nabla_x u_0 + \nabla_y \cdot \nabla_y u_1) \\
+        &+ \varepsilon^0(\nabla_x \cdot \nabla_x u_0 + \nabla_x \cdot \nabla_y u_1 + \nabla_y \cdot \nabla_x u_1 + \nabla_y \cdot \nabla_y u_2 )\\ 
+        &+ \varepsilon^1( \nabla_x \cdot \nabla_x u_1 + \nabla_x \cdot \nabla_y u_2 + \nabla_y \cdot \nabla_x u_2)\\
+        &+ \varepsilon^2(\nabla_x \cdot \nabla_x u_2))
+ \end{align*}
+ Comparing the orders of $\varepsilon$ we get for $\varepsilon^{-2}$:
+ \begin{align}
+ \nabla_y \cdot \nabla_y u_0(x,y) = 0
+ \end{align}
+ Because of the periodicity in $y$ it is $u_0(x,y) = u_0(x)$.
+ 
+ Therefore we get from the $\varepsilon^{-1}$:
+ \begin{align}
+ \nabla_x \cdot \nabla_y u_0(x) = \nabla_y \cdot \nabla_x u_0(x) = 0 
+ \end{align}
+ 
+ It follows:
+ 
+ \begin{align}
+ \nabla_y \cdot \nabla_y u_1(x,y) = 0
+ \end{align}
+ 
+ We write $u_1$ as linear combination of $u_0$
+ \begin{align}
+ \label{lin_combi_u_1}
+ u_1(x,y) = \sum_{j=1}^n w_j(y) \partial_{x_j}u_0(x)
+ \end{align}
+ The $y$-gradient can be written as
+ \begin{align}
+ \label{gradienty u1}
+ \nabla_y u_1(x,y) = & \nabla_y \sum_{j=1}^n w_j(y) \partial_{x_j}u_0(x)\\
+                   = & \sum_{j=1}^n \partial_{x_j} u_0(x) \nabla_y w_j(y) \\
+                   = & \sum_{j=1}^n \partial_{x_j} u_0(x) \sum_{i=1} e_i \partial_{y_i} w_j(y)
+ \end{align}
+ Or component-wise
+ \begin{align*}
+ \partial_{y_i} u_1(x,y) = \sum_{j=1}^n \partial_{x_j} u_0(x) \partial_{y_i}w_j(y)
+ \end{align*}
+It is obvious that $\nabla_x u_0(x)$ can be represented as:
+  \begin{align}
+ \nabla_x u_0(x) = \sum_{i=1}^n e_i \partial_{x_i}u_0(x)
+ \end{align}
+%  \textit{Kann man das wirklich machen, wenn $D_V = const$? }
+ 
+ 
+ From the $\varepsilon^0$ term we get:
+ 
+ \begin{align*}
+ \partial_t u_0 = D_V & (\nabla_x \cdot \nabla_x u_0 + \nabla_x \cdot \nabla_y u_1 + \nabla_y \cdot \nabla_x u_1 + \nabla_y \cdot \nabla_y u_2)
+ \end{align*}
+ 
+
+ 
+ We integrate over the cell:
+ 
+ \begin{align*}
+ \int_{Y_S} \partial_t u_0 \operatorname{d} y = 
+       D_V (& \int_{Y_S} \nabla_x \cdot (\nabla_x u_0 +    \nabla_y u_1) \operatorname{d} y 
+       + \int_{Y_S} \nabla_y \cdot (\nabla_x u_1 + \nabla_y u_2) \operatorname{d} y )
+ \end{align*}
+ 
+  
+ The first integral then becomes:
+ 
+ \begin{align*}
+ D_V &\int_{Y_S} \nabla_x \cdot (\nabla_x u_0(x) + \nabla_yu_1(x,y)) \operatorname{d}y \\
+ &=  D_V \int_{Y_S} \nabla_x \cdot (\sum_{i=1}^n e_i \partial_{x_i} u_0(x) + \sum_{j=1}^n 
+  \partial_{x_j} u_0(x) \sum_{i=1}^n e_i\partial_{y_i}w_j(y)) \operatorname{d} y\\
+ &= D_V \int_{Y_S} \sum_{i=1}^n \partial_{x_i}^2 u_0(x) + \sum_{j=1}^n\sum_{i=1}^n 
+ \partial_{x_i}\partial_{x_j}u_0(x) \partial_{y_i}w_j(y)\operatorname{d}y\\
+ &= D_V \int_{Y_S} \sum_{i=1}^n\sum_{j=1}^n \delta_{ij}\partial_{x_i}\partial_{x_j}u_0(x)
+ + \sum_{i=1}^n\sum_{j=1}^n \partial_{x_i}\partial_{x_j} u_0(x) \partial_{y_i}w_j(y)\operatorname{d}y\\
+ &= D_V \int_{Y_S} \sum_{i=1}^n\sum_{j=1}^n\partial_{x_i}\partial_{x_j} u_0(x)
+ (\delta_{ij} + \partial_{y_i} w_j(y))\operatorname{d}y\\
+ &= \sum_{i=1}^n\sum_{j=1}^n\partial_{x_i}\partial_{x_j} u_0(x)
+ D_V \int_{Y_S}(\delta_{ij} + \partial_{y_i} w_j(y))\operatorname{d}y
+ \end{align*}
+ 
+ We introduce now:
+ 
+\begin{align}
+\hat D_{ij} =D_V \int_{Y_S}(\delta_{ij} + \partial_{y_i} w_j(y))\operatorname{d}y
+\end{align}
+ 
+ Then we get:
+ \begin{align}
+ D_V &\int_{Y_S} \nabla_x \cdot (\nabla_x u_0(x) + \nabla_yu_1(x,y)) \operatorname{d}y 
+ = \sum_{i=1}^n\sum_{j=1}^n \partial_{x_i}\partial_{x_j}u_0(x) \hat D_{ij}
+ \end{align}
+ Consider the second integral and integrate by parts:
+ 
+ \begin{align}
+ \label{divergence theorem}
+ D_V \int_{Y_S} \nabla_y \cdot (\nabla_x u_1 + \nabla_y u_2) \operatorname{d} y = D_V \int_\Gamma (\nabla_x u_1 + \nabla_y u_2) \cdot \nu \operatorname{d} \Gamma(y)
+ \end{align}
+ 
+ Putting these two integrals together we get:
+ \begin{align}
+ \label{integral}
+ \int_{Y_S}\partial_t u_0(x)\operatorname{d}y = \sum_{i=1}^n\sum_{j=1}^n \partial_{x_i}\partial_{x_j}u_0(x) \hat D_{ij}+D_V \int_\Gamma (\nabla_x u_1 + \nabla_y u_2) \cdot \nu \operatorname{d} \Gamma(y)
+ \end{align}
+
+ We consider now the boundary condition. Using the ansatz function we get:
+ 
+ \begin{align*}
+k(u_0 + \varepsilon u_1 + \varepsilon^2 u_2 - \bar{u}) = D_V(&\varepsilon^{-1} \nabla_y u_0 \\
++& \varepsilon^0(\nabla_x u_0 + \nabla_y u_1)\\
++& \varepsilon ( \nabla_x u_1 + \nabla_y u_2)\\
++& \varepsilon^2 \nabla_x u_2) \cdot \nu
+\end{align*}
+
+Assume $k = \mathcal{O}(\varepsilon)$:
+\begin{align}
+ \varepsilon^{-1}D_V(\nabla_y u_0(x)) \cdot \nu &= 0\\
+  D_V(\nabla_x u_0 + \nabla_y u_1) \cdot \nu &= 0\\
+   \varepsilon D_V(\nabla_x u_1 + \nabla_y u_2) \cdot \nu&= k(u_0- \bar{u}) \\
+   \varepsilon^2 D_V(\nabla_x u_2) \cdot \nu &= \varepsilon k u_1 \\
+   0 &= \varepsilon^2 k u_2
+\end{align}
+
+Applying the boundary condition to \eqref{integral} and with the assumption $k \approx \varepsilon$ we get:
+
+ \begin{align}
+ \label{integral2}
+ \int_{Y_S}\partial_t u_0(x)\operatorname{d}y &= \sum_{i=1}^n\sum_{j=1}^n \partial_{x_i}\partial_{x_j}u_0(x) \hat D_{ij}+D_V \int_\Gamma (\nabla_x u_1 + \nabla_y u_2) \cdot \nu \operatorname{d} \Gamma(y)\\
+  &= \sum_{i=1}^n\sum_{j=1}^n \partial_{x_i}\partial_{x_j}u_0(x) \hat D_{ij}+\int_\Gamma u_0(x) - \bar{u} \operatorname{d} \Gamma(y)\\
+  &= \sum_{i=1}^n\sum_{j=1}^n \partial_{x_i}\partial_{x_j}u_0(x) \hat D_{ij}
+  + \mid\Gamma\mid(u_0 - \bar{u})
+ \end{align}
+
+
+
+
+Assume $k$ is independent of $\varepsilon$:
+ \begin{align}
+ \varepsilon^{-1}D_V(\nabla_y u_0(x)) \cdot \nu &= 0\\
+ D_V(\nabla_x u_0 + \nabla_y u_1) \cdot \nu &= k(u_0- \bar{u}) \\
+ \varepsilon D_V(\nabla_x u_1 + \nabla_y u_2) \cdot \nu &= \varepsilon k u_1 \\
+ \varepsilon^2 D_V(\nabla_x u_2) \cdot \nu &= \varepsilon^2 k u_2
+ \end{align}
+ 
+ With this assumption we get:
+ \begin{align}
+ \label{integral2}
+ \int_{Y_S}\partial_t u_0(x)\operatorname{d}y &= \sum_{i=1}^n\sum_{j=1}^n \partial_{x_i}\partial_{x_j}u_0(x) \hat D_{ij}+D_V \int_\Gamma (\nabla_x u_1 + \nabla_y u_2) \cdot \nu \operatorname{d} \Gamma(y)\\
+  &= \sum_{i=1}^n\sum_{j=1}^n \partial_{x_i}\partial_{x_j}u_0(x) \hat D_{ij}+\int_\Gamma ku_1(x,y) \operatorname{d} \Gamma(y)\\
+ \end{align}
+ 
+ 
+%  Applying the boundary condition we get:
+%  \begin{align*}
+%   D_V \int_{Y_S} \nabla_y \cdot (\nabla_x u_1 + \nabla_y u_2) \operatorname{d} y = k \int_\Gamma u_1 \cdot \nu \operatorname{d} \Gamma(y)
+%  \end{align*}
+%  
+%  The first two integrals together with the representation of $u_1$ as linear combination in \eqref{lin_combi_u_1} become:
+%  
+%  \begin{align*}
+%  &D_V(\int_{Y_S} \nabla_x\cdot \nabla_x u_0 \operatorname{d}y + \int_{Y_S} \nabla_x \cdot \nabla_y u_1 \operatorname{d}y)\\
+%  =& D_V(\nabla_x \cdot \nabla_x u_0 \int_{Y_S} \operatorname{d}y + \int_{Y_S} \nabla_x \cdot \nabla_y \sum_{j=1}^{n} w_j(y)\partial_{x_j} u_0(x) \operatorname{d} y)
+%  \end{align*}
+ 
+%  Since we consider $D_V=const$ we cannot describe $u_1$ in terms of $u_0$.
+ 
+%  \textbf{Is $k = \mathcal{O}(\varepsilon$)?} 
+
+% 
+% 
+% \begin{align*}
+% k(u_0 + \varepsilon u_1 + \varepsilon^2 u_2 - \bar{u}) = D_V(&\varepsilon^{-1} \nabla_y u_0 \\
+% +& \varepsilon^0(\nabla_x u_0 + \nabla_y u_1)\\
+% +& \varepsilon ( \nabla_x u_1 + \nabla_y u_2)\\
+% +& \varepsilon^2 \nabla_x u_2) \cdot \nu
+% \end{align*}
+ 
+%  Assume $k$ is independent of $\varepsilon$.
+ 
+%  \begin{align}
+%  0 = D_V \varepsilon^{-1} \nabla_y u_0(x,y) \cdot \nu \\
+%  \Rightarrow u_0(x,y) = u_0(x) \text{ or } \nabla_y u_0(x,y) \perp \nu
+%  \end{align}
+%  
+ 
+ 
+ 
+ 
+%  Assume now $k=c\varepsilon$:
+ 
+ \end{document}

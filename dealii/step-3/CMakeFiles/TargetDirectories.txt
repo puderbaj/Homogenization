@@ -1,0 +1,10 @@
+/home/puderbaj/PhD/Homogenization/dealii/step-3/CMakeFiles/step-3.dir
+/home/puderbaj/PhD/Homogenization/dealii/step-3/CMakeFiles/run.dir
+/home/puderbaj/PhD/Homogenization/dealii/step-3/CMakeFiles/debug.dir
+/home/puderbaj/PhD/Homogenization/dealii/step-3/CMakeFiles/release.dir
+/home/puderbaj/PhD/Homogenization/dealii/step-3/CMakeFiles/runclean.dir
+/home/puderbaj/PhD/Homogenization/dealii/step-3/CMakeFiles/distclean.dir
+/home/puderbaj/PhD/Homogenization/dealii/step-3/CMakeFiles/strip_comments.dir
+/home/puderbaj/PhD/Homogenization/dealii/step-3/CMakeFiles/info.dir
+/home/puderbaj/PhD/Homogenization/dealii/step-3/CMakeFiles/edit_cache.dir
+/home/puderbaj/PhD/Homogenization/dealii/step-3/CMakeFiles/rebuild_cache.dir
