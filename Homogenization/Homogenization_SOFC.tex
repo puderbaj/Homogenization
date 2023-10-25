@@ -10,13 +10,137 @@
 
  \begin{document}
 %  \section{Model}
+\textbf{TODO}
+\begin{itemize}
+\item Discription of the microstucture.
+\item Discription of the model
+\item Pictures
+\item macroscopic problem
+\item cell problem
+
+\end{itemize}
+
+
+\textbf{Program structure}
+\begin{itemize}
+\item General things
+\begin{itemize}
+\item parameter file
+\end{itemize}
+
+\item Microscopic problem
+\begin{itemize}
+\item declare parameter
+\item make grid
+\item distribute levelset, material
+\item assemble system
+\item assemble rhs
+\item boundary and interface conditions
+\item solve
+\item visualize solution
+\end{itemize}
+
+\item Homogenized problem
+\begin{itemize}
+\item Cell problem
+\begin{itemize}
+\item make grid 
+\item levelset
+\item assemble system
+\item assemble rhs
+\item periodic boundary condition, (interface condition?)
+\item solve
+\item visualize
+\end{itemize}
+\item Makroscopic Problem
+\begin{itemize}
+\item compute tensor
+\item make grid
+\item assemble system
+\item assemble rhs
+\item boundary condition
+\item solve
+\item visualize solution
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\begin{itemize}
+\item Domain discription
+\item PDE + Explaination and application
+\item trouble with microstructure
+\item assumption of periodicity
+\item homogenization process
+\item cell problem and macroscopic problem
+\item How does the equation change, interface and boundary condition
+\item Implementation details
+\begin{itemize}
+\item unfitted mesh and level set function
+\item xfem
+\item 
+\end{itemize}
+\item three scale homogenization 
+\item small cut problem
+\item ghost penalty
+\end{itemize}
+
+
+
+
+
+\begin{figure}
+	\begin{tikzpicture}
+  %microscopic structure
+  \draw (1/64,1/64) -- (1/64,133/64) -- (133/64,133/64) -- (133/64,1/64) -- (1/64,1/64);
+
+  \foreach \x in {1,...,16}
+  {
+    \foreach \y in {1,...,16}
+    {
+		\fill[gray] (\x/8,\y/8) circle (0.4mm);
+	}
+  }
+%   \node at (2.5,2.5){\small{microscopic problem}};
+	\end{tikzpicture}
+	
+	\begin{tikzpicture}
+      \draw (0,0) -- (0,1) -- (1,1) -- (1,0) -- (0,0);
+      \fill[gray] (0.5,0.5) circle (1mm);
+	\end{tikzpicture}
+
+	\begin{tikzpicture}
+      	\fill[gray] (0,0) -- (0,1) -- (1,1) -- (1,0) -- (0,0);
+	\draw (0,0) -- (0,1) -- (1,1) -- (1,0) -- (0,0);
+	\end{tikzpicture}
+	\caption{Microscopic problem }
+\end{figure}
  
+ \section{Microstructure}
+ We consider a porous material in the domain $\Omega \in \mathbb{R}^n$. The domain is divided in two phases $\Omega = S \cup P$. $S$ denotes the solid phase. %What material is it exactly?
+ $P$ denotes the pores.
+ 
+ We assume the domain to be periodic. That means it is composed of periodic cells.
+ 
+ \section{Homogenization}
+ 
+ 
+ We consider a composite material in the domain $\Omega = S \cup P$, where $S$ denotes the solid phase, and $P$ denotes the pores. 
+ 
+ We consider the following PDE  on the microscopic domain.
  \begin{align}
- \partial_t u &= \nabla \cdot (D_V\nabla u)   & x\in S \label{diffusion}\\
+ \nabla \cdot (D_V\nabla u)  &= f(x)   & x\in S \label{diffusion}\\
  D_V\nabla u \cdot \nu &= k(u-\bar{u}) & x \in \Gamma \label{boundary condition}
  \end{align}
  
- We assume $D_V$ to be constant in $Y_S$.
+ The diffusion $D_V$ is defined as
+ \begin{align*}
+  D_V(x) = \begin{cases} D_V = const , & x \in S \\0  ,& x \in P\end{cases}
+ \end{align*}
+ 
+ To derive a homogenized problem we separate the scale in two parts.
+ 
+ 
+ We assume $D_V$ to be constant in $S$.
  
 %  \begin{align*}
 % %  D(x) = 
@@ -112,27 +236,40 @@ It is obvious that $\nabla_x u_0(x)$ can be represented as:
        + \int_{Y_S} \nabla_y \cdot (\nabla_x u_1 + \nabla_y u_2) \operatorname{d} y )
  \end{align*}
  
-  
+ Since $u_0(x)$ is independent of $y$ it becomes:
+ 
+ \begin{align*}
+  \int_{Y_S} \partial_t u_0 \operatorname{d} y = \mid Y_S \mid \partial_t u_0 
+ \end{align*}
+ 
+ Dividing by $\mid Y_S \mid$ we get:
+ 
+ \begin{align*}
+ \partial_t u_0 =   \frac{1}{\mid Y_S \mid}     D_V (& \int_{Y_S} \nabla_x \cdot (\nabla_x u_0 +    \nabla_y u_1) \operatorname{d} y 
+       + \int_{Y_S} \nabla_y \cdot (\nabla_x u_1 + \nabla_y u_2) \operatorname{d} y )
+ \end{align*}
+ 
+ 
  The first integral then becomes:
  
  \begin{align*}
  D_V &\int_{Y_S} \nabla_x \cdot (\nabla_x u_0(x) + \nabla_yu_1(x,y)) \operatorname{d}y \\
- &=  D_V \int_{Y_S} \nabla_x \cdot (\sum_{i=1}^n e_i \partial_{x_i} u_0(x) + \sum_{j=1}^n 
+ &= \frac{1}{\mid Y_S \mid} D_V \int_{Y_S} \nabla_x \cdot (\sum_{i=1}^n e_i \partial_{x_i} u_0(x) + \sum_{j=1}^n 
   \partial_{x_j} u_0(x) \sum_{i=1}^n e_i\partial_{y_i}w_j(y)) \operatorname{d} y\\
- &= D_V \int_{Y_S} \sum_{i=1}^n \partial_{x_i}^2 u_0(x) + \sum_{j=1}^n\sum_{i=1}^n 
+ &= \frac{1}{\mid Y_S \mid}D_V \int_{Y_S} \sum_{i=1}^n \partial_{x_i}^2 u_0(x) + \sum_{j=1}^n\sum_{i=1}^n 
  \partial_{x_i}\partial_{x_j}u_0(x) \partial_{y_i}w_j(y)\operatorname{d}y\\
- &= D_V \int_{Y_S} \sum_{i=1}^n\sum_{j=1}^n \delta_{ij}\partial_{x_i}\partial_{x_j}u_0(x)
+ &=\frac{1}{\mid Y_S \mid} D_V \int_{Y_S} \sum_{i=1}^n\sum_{j=1}^n \delta_{ij}\partial_{x_i}\partial_{x_j}u_0(x)
  + \sum_{i=1}^n\sum_{j=1}^n \partial_{x_i}\partial_{x_j} u_0(x) \partial_{y_i}w_j(y)\operatorname{d}y\\
- &= D_V \int_{Y_S} \sum_{i=1}^n\sum_{j=1}^n\partial_{x_i}\partial_{x_j} u_0(x)
+ &= \frac{1}{\mid Y_S \mid}D_V \int_{Y_S} \sum_{i=1}^n\sum_{j=1}^n\partial_{x_i}\partial_{x_j} u_0(x)
  (\delta_{ij} + \partial_{y_i} w_j(y))\operatorname{d}y\\
  &= \sum_{i=1}^n\sum_{j=1}^n\partial_{x_i}\partial_{x_j} u_0(x)
- D_V \int_{Y_S}(\delta_{ij} + \partial_{y_i} w_j(y))\operatorname{d}y
+ \frac{1}{\mid Y_S \mid}D_V \int_{Y_S}(\delta_{ij} + \partial_{y_i} w_j(y))\operatorname{d}y
  \end{align*}
  
  We introduce now:
  
 \begin{align}
-\hat D_{ij} =D_V \int_{Y_S}(\delta_{ij} + \partial_{y_i} w_j(y))\operatorname{d}y
+\hat D_{ij} = \frac{1}{\mid Y_S \mid} D_V \int_{Y_S}(\delta_{ij} + \partial_{y_i} w_j(y))\operatorname{d}y
 \end{align}
  
  Then we get:
@@ -150,24 +287,42 @@ It is obvious that $\nabla_x u_0(x)$ can be represented as:
  Putting these two integrals together we get:
  \begin{align}
  \label{integral}
- \int_{Y_S}\partial_t u_0(x)\operatorname{d}y = \sum_{i=1}^n\sum_{j=1}^n \partial_{x_i}\partial_{x_j}u_0(x) \hat D_{ij}+D_V \int_\Gamma (\nabla_x u_1 + \nabla_y u_2) \cdot \nu \operatorname{d} \Gamma(y)
+ \int_{Y_S}\partial_t u_0(x)\operatorname{d}y = \sum_{i=1}^n\sum_{j=1}^n \partial_{x_i}\partial_{x_j}u_0(x) \hat D_{ij}+D_V \int_\Gamma (\nabla_x u_1 + \nabla_y u_2) \cdot \nu_y \operatorname{d} \Gamma(y)
  \end{align}
+ 
+ Where $\nu_y$ is the normal vector in the $y$ scale.
 
  We consider now the boundary condition. Using the ansatz function we get:
  
- \begin{align*}
+ \begin{align}
+ \label{boundary_cond_expansion_nu}
 k(u_0 + \varepsilon u_1 + \varepsilon^2 u_2 - \bar{u}) = D_V(&\varepsilon^{-1} \nabla_y u_0 \\
 +& \varepsilon^0(\nabla_x u_0 + \nabla_y u_1)\\
 +& \varepsilon ( \nabla_x u_1 + \nabla_y u_2)\\
 +& \varepsilon^2 \nabla_x u_2) \cdot \nu
-\end{align*}
+\end{align}
 
-Assume $k = \mathcal{O}(\varepsilon)$:
+Where $\nu$ is the normal vector in the macroscale. ??? To apply the boundary condition, we need to express $\nu$ in terms of $\nu_y$.
+Since the microstucture is represented in cell problem, we get the direction of the normal from $\nu_y$ but to get unit vector we have to scale it with 
+$\frac{1}{\varepsilon}$. So it is $\nu = \frac{\nu_y}{\varepsilon}$
+
+Therefore the boundary condition \eqref{boundary_cond_expansion_nu}, becomes:
+
+ \begin{align}
+ \label{boundary_cond_expansion_nu_y}
+k(u_0 + \varepsilon u_1 + \varepsilon^2 u_2 - \bar{u}) = D_V(&\varepsilon^{-2} \nabla_y u_0 \\ \nonumber
++& \varepsilon^{-1}(\nabla_x u_0 + \nabla_y u_1)\\
++& \varepsilon^0 ( \nabla_x u_1 + \nabla_y u_2)\\ \nonumber
++& \varepsilon \nabla_x u_2) \cdot \nu_y \nonumber
+\end{align}
+
+Now we sort the terms by orders of $\varepsilon$ and get:
+% Assume $k = \mathcal{O}(\varepsilon)$:
 \begin{align}
- \varepsilon^{-1}D_V(\nabla_y u_0(x)) \cdot \nu &= 0\\
+ \varepsilon^{-1}D_V(\nabla_y u_0(x)) \cdot \nu &= 0\\ \nonumber
   D_V(\nabla_x u_0 + \nabla_y u_1) \cdot \nu &= 0\\
-   \varepsilon D_V(\nabla_x u_1 + \nabla_y u_2) \cdot \nu&= k(u_0- \bar{u}) \\
-   \varepsilon^2 D_V(\nabla_x u_2) \cdot \nu &= \varepsilon k u_1 \\
+   \varepsilon D_V(\nabla_x u_1 + \nabla_y u_2) \cdot \nu&= k(u_0- \bar{u}) \\ \nonumber
+   \varepsilon^2 D_V(\nabla_x u_2) \cdot \nu &= \varepsilon k u_1 \\ \nonumber
    0 &= \varepsilon^2 k u_2
 \end{align}
 
@@ -180,24 +335,24 @@ Applying the boundary condition to \eqref{integral} and with the assumption $k \
   &= \sum_{i=1}^n\sum_{j=1}^n \partial_{x_i}\partial_{x_j}u_0(x) \hat D_{ij}
   + \mid\Gamma\mid(u_0 - \bar{u})
  \end{align}
-
-
-
-
-Assume $k$ is independent of $\varepsilon$:
- \begin{align}
- \varepsilon^{-1}D_V(\nabla_y u_0(x)) \cdot \nu &= 0\\
- D_V(\nabla_x u_0 + \nabla_y u_1) \cdot \nu &= k(u_0- \bar{u}) \\
- \varepsilon D_V(\nabla_x u_1 + \nabla_y u_2) \cdot \nu &= \varepsilon k u_1 \\
- \varepsilon^2 D_V(\nabla_x u_2) \cdot \nu &= \varepsilon^2 k u_2
- \end{align}
- 
- With this assumption we get:
- \begin{align}
- \label{integral2}
- \int_{Y_S}\partial_t u_0(x)\operatorname{d}y &= \sum_{i=1}^n\sum_{j=1}^n \partial_{x_i}\partial_{x_j}u_0(x) \hat D_{ij}+D_V \int_\Gamma (\nabla_x u_1 + \nabla_y u_2) \cdot \nu \operatorname{d} \Gamma(y)\\
-  &= \sum_{i=1}^n\sum_{j=1}^n \partial_{x_i}\partial_{x_j}u_0(x) \hat D_{ij}+\int_\Gamma ku_1(x,y) \operatorname{d} \Gamma(y)\\
- \end{align}
+% 
+% 
+% 
+% 
+% Assume $k$ is independent of $\varepsilon$:
+%  \begin{align}
+%  \varepsilon^{-1}D_V(\nabla_y u_0(x)) \cdot \nu &= 0\\
+%  D_V(\nabla_x u_0 + \nabla_y u_1) \cdot \nu &= k(u_0- \bar{u}) \\
+%  \varepsilon D_V(\nabla_x u_1 + \nabla_y u_2) \cdot \nu &= \varepsilon k u_1 \\
+%  \varepsilon^2 D_V(\nabla_x u_2) \cdot \nu &= \varepsilon^2 k u_2
+%  \end{align}
+%  
+%  With this assumption we get:
+%  \begin{align}
+%  \label{integral2}
+%  \int_{Y_S}\partial_t u_0(x)\operatorname{d}y &= \sum_{i=1}^n\sum_{j=1}^n \partial_{x_i}\partial_{x_j}u_0(x) \hat D_{ij}+D_V \int_\Gamma (\nabla_x u_1 + \nabla_y u_2) \cdot \nu \operatorname{d} \Gamma(y)\\
+%   &= \sum_{i=1}^n\sum_{j=1}^n \partial_{x_i}\partial_{x_j}u_0(x) \hat D_{ij}+\int_\Gamma ku_1(x,y) \operatorname{d} \Gamma(y)\\
+%  \end{align}
  
  
 %  Applying the boundary condition we get:
@@ -237,5 +392,10 @@ Assume $k$ is independent of $\varepsilon$:
  
  
 %  Assume now $k=c\varepsilon$:
+
+\section{Ghost penalty}
+
+Since the domain we consider has 
+
  
  \end{document}

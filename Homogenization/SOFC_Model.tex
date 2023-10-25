@@ -49,13 +49,13 @@
 % 	\begin{figure}
 	\begin{tikzpicture}
 %microscopic structure
-\draw (1/64,1/64) -- (1/64,131/64) -- (131/64,131/64) -- (131/64,1/64) -- (1/64,1/64);
+\draw (1/32,1/32 -- (1/32,131/32) -- (131/32,131/32) -- (131/32,1/32) -- (1/32,1/32);
 
-  \foreach \x in {1,...,32}
+  \foreach \x in {1,...,16}
   {
-    \foreach \y in {1,...,32}
+    \foreach \y in {1,...,16}
     {
-		\fill[gray] (\x/16,\y/16) circle (0.2mm);
+		\fill[gray] (\x/8,\y/8) circle (0.2mm);
 	}
   }
 %   \node at (2.5,2.5){\small{microscopic problem}};
