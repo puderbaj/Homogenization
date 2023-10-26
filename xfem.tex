@@ -94,7 +94,7 @@
         [u]& = g_s& \text{ on } \Gamma
     \end{align}
 \end{frame}
-	
+\section{Unfitted Method}
 \begin{frame}{Unfitted Method}
 	
 	\begin{itemize}
@@ -129,16 +129,19 @@
 	% Level set
 	% Difference to cut cell?	
 \end{frame}
-	
+
+\section{Level Set Function}
 \begin{frame}{Level Set Function}
 	\begin{itemize}
         \item Tracking the interface
 	\end{itemize}
 	\begin{align*}
-        \phi : \Omega \to \mathbb{R} \\
-        \phi &= 0 &\text{ on } \Gamma\\
-        \phi &< 0 &\text{ in } \Omega_1\\
-        \phi &> 0 &\text{ in } \Omega_2 
+        \phi : \Omega \to \mathbb{R} \quad , \quad
+        \phi(x) \begin{cases}
+        = 0 & , x \in \Gamma\\
+        < 0 &, x \in  \Omega_1\\
+        > 0 &, x \in  \Omega_2
+        \end{cases}
 	\end{align*}
 	
     \begin{figure}
@@ -164,7 +167,7 @@
 	
 \end{frame}
 
-\begin{frame}{Enriched Elements}
+\begin{frame}{Implementation in deal.II}
     \begin{figure}
         \begin{tikzpicture}
 
@@ -176,7 +179,7 @@
             \fill[gray] (0.5,0.25) rectangle (0.25,0.5);
             \fill[gray] (-0.5,-0.25) rectangle (-0.25,-0.5);
             \fill[gray] (0.5,-0.25) rectangle (0.25,-0.5);
-            
+
             \draw  (0,0) circle (6mm);
             \foreach \x in {0,...,8}
             {
@@ -189,10 +192,23 @@
         \end{tikzpicture}
         \caption{Cut cells}
     \end{figure}
+
+    \begin{itemize}
+        \item loop over all cells
+        \item using the level set function to find the cut cells
+        \item \texttt{active\_fe\_index()}
+    \end{itemize}
+    % strong code
+    % fe systems
+    % Fe collection
+    % xfe_values
 \end{frame}
 
+\section{Extended Finite Elements}
+
+
 \begin{frame}{Enriched Elements}
-    \only <1>
+    \only <1->
     {\begin{figure}
         \begin{tikzpicture}
 	
@@ -239,10 +255,10 @@
 %             }
         \end{tikzpicture}
         \caption{Standard degrees of freedom}
-    \end{figure}}
+%     \end{figure}}
     
-\only <2>
-    {\begin{figure}
+% \only <2>
+%     {\begin{figure}
         \begin{tikzpicture}
 	
             \fill[gray] (0,0) circle (6mm);
@@ -291,32 +307,92 @@
     \end{figure}}    
 
 \end{frame}
-    \begin{frame}{Extended FEM}
+
+
+\begin{frame}{Standard Finite Elements}
+    \begin{itemize}
+         \item Standard finite element space
+         \begin{align*}
+            V_h = \left\{ \varphi \in V : \phi|_K \in Q_p \right\}
+         \end{align*}
+         \item Enriched finite element space
+         \begin{align*}
+            V_h^s = \left\{ \varphi \in V : \varphi|_K \in Q , \varphi|_{K_i} \in Q, i=1,2\right\}
+         \end{align*}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Finite Element Solution}
+    \begin{itemize}
+    \item Standard finite Element solution
     \begin{align}
-        u_h = \sum_{i \in I} u_i \varphi_i + \sum_{j \in J} a_j M_j
+        u_h = \sum_{i \in I} u_i N_i
     \end{align}
+    where $N_i$ are standard shape functions.
+
+
+    \item Extended finite element solution
+    \begin{align}
+        u_h = \sum_{i \in I} u_i N_i + \sum_{j \in J} a_j M_j
+    \end{align}
+    where $M_j$ are enriched shape functions.
+    \begin{align}
+    M_j(x) = N_j(x) \Psi(x)
+    \end{align}
+    with $\Psi$ the Heaviside function.
+    \end{itemize}
+%
+%     % Shape functions
+%     % picture
+%     % standard functions
+\end{frame}
     
-    
-    % Shape functions
-    % picture
-    % standard functions
-    \end{frame}
-    
-    \begin{frame}{Boundary and Interface condition}
-    %
-    \end{frame}
-    
-    \begin{frame}{Implementation}
-    % strong code
-    % fe systems
-    % Fe collection
-    % xfe_values
-    \end{frame}
-    
-    \begin{frame}{XFEValues Class} 
-    % quadrature
-    % cubelements
-    % Interface condition
-    \end{frame}
+% \begin{frame}{Boundary and Interface condition}
+%     %
+% \end{frame}
+%
+% \begin{frame}{Implementation in deal.II}
+%     \begin{figure}
+%         \begin{tikzpicture}
+%
+%             \fill[gray] (-0.5,0.5) rectangle (0.5,0.75);
+%             \fill[gray] (-0.5,-0.5) rectangle (0.5,-0.75);
+%             \fill[gray] (-0.75,-0.5) rectangle (-0.5,0.5);
+%             \fill[gray] (0.75,-0.5) rectangle (0.5,0.5);
+%             \fill[gray] (-0.5,0.25) rectangle (-0.25,0.5);
+%             \fill[gray] (0.5,0.25) rectangle (0.25,0.5);
+%             \fill[gray] (-0.5,-0.25) rectangle (-0.25,-0.5);
+%             \fill[gray] (0.5,-0.25) rectangle (0.25,-0.5);
+%
+%             \draw  (0,0) circle (6mm);
+%             \foreach \x in {0,...,8}
+%             {
+%                 \draw (-1 + \x/4, -1) -- (-1 + \x/4, 1);
+%             }
+%                 \foreach \x in {0,...,8}
+%             {
+%                 \draw (-1,-1 + \x/4) -- (1,-1 + \x/4);
+%             }
+%         \end{tikzpicture}
+%         \caption{Cut cells}
+%     \end{figure}
+%
+%     \begin{itemize}
+%         \item loop over all cells
+%         \item using the level set function to find the cut cells
+%         \item \texttt{active\_fe\_index()}
+%     \end{itemize}
+%     % strong code
+%     % fe systems
+%     % Fe collection
+%     % xfe_values
+% \end{frame}
+%
+% \begin{frame}{XFEValues Class}
+%     % quadrature
+%     % cubelements
+%     % Interface condition
+% \end{frame}
     
 \end{document}

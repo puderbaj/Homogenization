@@ -1,3 +1,6 @@
 \babel@toc {english}{}\relax 
 \beamer@sectionintoc {1}{Motivation}{3}{0}{1}
 \beamer@sectionintoc {2}{Interface Problems}{4}{0}{2}
+\beamer@sectionintoc {3}{Unfitted Method}{5}{0}{3}
+\beamer@sectionintoc {4}{Level Set Function}{6}{0}{4}
+\beamer@sectionintoc {5}{Extended Finite Elements}{8}{0}{5}
